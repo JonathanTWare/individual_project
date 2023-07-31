@@ -48,21 +48,23 @@ def get_crime_data(destination_directory):
  
 # -----------------------------prep--------------------------------
 def prep_crime_data(df):
-    
     encoded_cols = pd.get_dummies(df['Arrest'], prefix='arrest_made')
     df = pd.concat([df, encoded_cols], axis=1)
     df = df.dropna()
-    
-    df['Date'] = pd.to_datetime(df['Date'])
+    df = df[['Primary Type', 'Date']]
 
+    df['Date'] = pd.to_datetime(df['Date'])
+    df.set_index('Date', inplace=True)
+
+    df = df.resample('D')['Primary Type'].value_counts()
+    df = df.unstack(level='Primary Type', fill_value=0)
        
     five_years_ago = datetime.now() - timedelta(days=365 * 5)
 
-    df = df[df['Date'] >= five_years_ago]
+    df = df[df.index >= five_years_ago]
+    df = df[['THEFT', 'BATTERY', 'ASSAULT', 'CRIMINAL DAMAGE', 'MOTOR VEHICLE THEFT', 'NARCOTICS', 'HOMICIDE', 'HUMAN TRAFFICKING', 'OFFENSE INVOLVING CHILDREN', 'KIDNAPPING']]
     
-    train, validate, test = split_crime_data(df)
-    
-    return train, validate, test
+    return df
 # -----------------------------split--------------------------------
 
 
