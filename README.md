@@ -131,7 +131,7 @@ Further feature exploration to see if model prediction can increase. Look for da
 
 ### 'BATTERY' modeling
 
-#### #### The best model for BATTERY (Holts Linear Trend Forecasting RMSE 29.83) did not beat baseline(Moving Average Baseline RMSE 25.32), and when running it through a test score it obtained a 139 RMSE which failed to beat baseline.
+#### The best model for BATTERY (Holts Linear Trend Forecasting RMSE 29.83) did not beat baseline(Moving Average Baseline RMSE 25.32), and when running it through a test score it obtained a 139 RMSE which failed to beat baseline.
 
  
 ### 'CRIMINAL DAMAGE' modeling
