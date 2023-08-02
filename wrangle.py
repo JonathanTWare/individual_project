@@ -11,8 +11,8 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 # -----------------------------acquire--------------------------------
 
 
-def get_crime_data(destination_directory):
-    
+def get_crime_data():
+    destination_directory = '.'
     os.makedirs(destination_directory, exist_ok=True)
 
     csv_file_name = 'Crimes-2001-to-present-chicago.csv'
@@ -48,44 +48,46 @@ def get_crime_data(destination_directory):
  
 # -----------------------------prep--------------------------------
 def prep_crime_data(df):
-    encoded_cols = pd.get_dummies(df['Arrest'], prefix='arrest_made')
-    df = pd.concat([df, encoded_cols], axis=1)
     df = df.dropna()
     df = df[['Primary Type', 'Date']]
-
     df['Date'] = pd.to_datetime(df['Date'])
-    df.set_index('Date', inplace=True)
-
-    df = df.resample('D')['Primary Type'].value_counts()
-    df = df.unstack(level='Primary Type', fill_value=0)
-       
+    df.set_index('Date', inplace=True)  
     five_years_ago = datetime.now() - timedelta(days=365 * 5)
+    
 
     df = df[df.index >= five_years_ago]
-    df = df[['THEFT', 'BATTERY', 'ASSAULT', 'CRIMINAL DAMAGE', 'MOTOR VEHICLE THEFT', 'NARCOTICS', 'HOMICIDE', 'HUMAN TRAFFICKING', 'OFFENSE INVOLVING CHILDREN', 'KIDNAPPING']]
+    df = df.resample('D')['Primary Type'].value_counts()
+    df = df.unstack(level='Primary Type', fill_value=0)
+    df = df[['THEFT','BATTERY','ASSAULT', 'CRIMINAL DAMAGE','MOTOR VEHICLE THEFT','NARCOTICS','HOMICIDE','HUMAN TRAFFICKING','OFFENSE INVOLVING CHILDREN','KIDNAPPING']]
+    
+    
+    
+    
+
     
     return df
 # -----------------------------split--------------------------------
 
-
-
-def split_crime_data(df):
     
-  
-    train_validate, test = train_test_split(df, test_size=.2, random_state=123)
-    train, validate = train_test_split(train_validate, 
-                                       test_size=.3, 
-                                       random_state=123) 
-                                       
-
+def split_crime_data(df, train_percentage=0.6, validation_percentage=0.15):
     
-    return train, validate, test
+    total_samples = len(df)
+    train_size = int(total_samples * train_percentage)
+    validation_size = int(total_samples * validation_percentage)
+
+    train = df[:train_size]
+    validation = df[train_size:train_size + validation_size]
+    test = df[train_size + validation_size:]
+
+    return train, validation, test
 
 
 # -----------------------------wrangle-------------------------------- 
 
 def wrangle_crime():
-    destination_directory = '.'
-    df = get_crime_data(destination_directory)
-    train, validate, test = prep_crime_data(df)
+
+    df = get_crime_data()
+    df = prep_crime_data(df)
+    train, validate, test = split_crime_data(df, train_percentage=0.6, validation_percentage=0.15)
+   
     return train, validate, test
