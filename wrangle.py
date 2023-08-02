@@ -6,6 +6,7 @@ import subprocess
 from sklearn.model_selection import train_test_split
 from datetime import datetime, timedelta
 from kaggle.api.kaggle_api_extended import KaggleApi
+import random
 
 
 # -----------------------------acquire--------------------------------
@@ -69,8 +70,10 @@ def prep_crime_data(df):
 # -----------------------------split--------------------------------
 
     
-def split_crime_data(df, train_percentage=0.6, validation_percentage=0.15):
+def split_crime_data(df, train_percentage=0.6, validation_percentage=0.15, random_seed=123):
     
+    
+
     total_samples = len(df)
     train_size = int(total_samples * train_percentage)
     validation_size = int(total_samples * validation_percentage)
