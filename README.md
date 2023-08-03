@@ -146,6 +146,6 @@ Further feature exploration to see if model prediction can increase. Look for da
 #### 
 #### For the 10 crimes that went through autocorrelation, only 3 of them showed any correlation and still were not as predictable as baseline
 #### Considering all models, as none beat baseline, Further exploring and feature engineering maybe needed in order to predict crimes using time. It may be that time does not influence crime type count daily.
-####
+#### One next step would be to add population as a feature to see if that would help the model predict these crime counts more accurately.
 
 [[Back to top](#top)]
