@@ -88,7 +88,7 @@ Further feature exploration to see if model prediction can increase. Look for da
 
 - Install necessary python packages and kaggle pip install.
 - Clone the individual_project repository.
-- Use Wrangle function to acquire zip and extract data into current directory.
+- Use Wrangle function to acquire zip and extract data into current directory fetching (https://www.kaggle.com/datasets/adelanseur/crimes-2001-to-present-chicago)
 - Ensure the wrangle.py and model.py files are in the same folder as the crime_final_report.ipynb notebook.
 
 
