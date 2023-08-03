@@ -13,6 +13,10 @@ import random
 
 
 def get_crime_data():
+    
+    '''
+    This is a function that will fetch the crime data, download it and extract the zip file into the local directory you're working in
+    '''
     destination_directory = '.'
     os.makedirs(destination_directory, exist_ok=True)
 
@@ -49,6 +53,10 @@ def get_crime_data():
  
 # -----------------------------prep--------------------------------
 def prep_crime_data(df):
+    
+    '''
+    This function preps the data from get_crime_data and does the necessary step to cleaning the dataframe
+    '''
     df = df.dropna()
     df = df[['Primary Type', 'Date']]
     df['Date'] = pd.to_datetime(df['Date'])
@@ -71,6 +79,9 @@ def prep_crime_data(df):
 
     
 def split_crime_data(df, train_percentage=0.6, validation_percentage=0.15, random_seed=123):
+    '''
+    this function splits the data into train, validate and test data
+    '''
     
     
 
@@ -88,6 +99,9 @@ def split_crime_data(df, train_percentage=0.6, validation_percentage=0.15, rando
 # -----------------------------wrangle-------------------------------- 
 
 def wrangle_crime():
+    '''
+    This function will do all encomposing function in one line to deliver a cleaned up train, validate and test data
+    '''
 
     df = get_crime_data()
     df = prep_crime_data(df)
